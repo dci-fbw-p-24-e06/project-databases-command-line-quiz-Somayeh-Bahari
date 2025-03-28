@@ -26,27 +26,3 @@ def show_menu():
     return input("Please enter your choice: ")
 
 
-def take_quiz(conn):
-    """Start a new quiz"""
-    cur = conn.cursor()
-
-    # Get available topics
-    cur.execute("SELECT topic_name FROM quiz_topics")
-    topics = [row[0] for row in cur.fetchall()]
-
-    if not topics:
-        print("No topics available. Please add questions first.")
-        return
-
-    print("\nAvailable Topics:")
-    for i, topic in enumerate(topics, 1):
-        print(f"{i}. {topic}")
-
-    try:
-        choice = int(input("Select a topic: ")) - 1
-        selected_topic = topics[choice]
-    except (ValueError, IndexError):
-        print("Invalid selection")
-        return
-
-    
