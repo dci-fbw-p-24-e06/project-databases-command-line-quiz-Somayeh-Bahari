@@ -26,16 +26,6 @@ def show_menu():
     return input("Please enter your choice: ")
 
 
-
-def show_menu():
-    """Display main menu"""
-    print("\nMain Menu:")
-    print("1. Start Quiz")
-    print("2. Add New Question")
-    print("3. Exit")
-    return input("Please enter your choice: ")
-
-
 def take_quiz(conn):
     """Start a new quiz"""
     cur = conn.cursor()
@@ -61,7 +51,7 @@ def take_quiz(conn):
 
     # Sanitize topic name for table query
     table_name = f"quiz_{selected_topic.lower().replace(' ', '_')}"
-    
+
     try:
         cur.execute(f"""
             SELECT question, correct_answer, wrong_answer1, wrong_answer2
