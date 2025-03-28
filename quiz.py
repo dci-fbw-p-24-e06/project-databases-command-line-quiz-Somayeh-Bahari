@@ -49,40 +49,4 @@ def take_quiz(conn):
         print("Invalid selection")
         return
 
-    # Get questions
-    table_name = f"quiz_{selected_topic.lower().replace(' ', '_')}"
-    try:
-        cur.execute(f"""
-            SELECT question, correct_answer, wrong_answer1, wrong_answer2
-            FROM {table_name} 
-            ORDER BY RANDOM() LIMIT 5
-        """)
-        questions = cur.fetchall()
-    except Exception as e:
-        print("Error loading questions:", e)
-        return
-
-    score = 0
-    for i, (question, correct, *wrong) in enumerate(questions, 1):
-        print(f"\nQuestion {i}: {question}")
-
-        # Display options
-        options = [correct] + list(wrong)
-        random.shuffle(options)
-
-        for j, option in enumerate(options, 1):
-            print(f"{j}. {option}")
-
-        # Get user answer
-        try:
-            answer = int(input("Your answer: ")) - 1
-            if options[answer] == correct:
-                print(" Correct!")
-                score += 1
-            else:
-                print(f"Wrong! Correct answer: {correct}")
-        except (ValueError, IndexError):
-            print("Invalid input, skipping question")
-
-    print(f"\nYour final score: {score} out of {len(questions)}")
-
+    
