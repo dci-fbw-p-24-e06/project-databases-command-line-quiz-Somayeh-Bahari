@@ -14,14 +14,6 @@ CREATE TABLE quiz_science (
 );
 
 INSERT INTO quiz_science (question, correct_answer, wrong_answer1, wrong_answer2)
-VALUES ('What is the capital of France?', 'Paris', 'London', 'Berlin');
-
-INSERT INTO quiz_science (question, correct_answer, wrong_answer1, wrong_answer2)
-VALUES ('Wath color is the sky?', 'Blue', 'red', 'yellow');
-
-
-
-INSERT INTO quiz_science (question, correct_answer, wrong_answer1, wrong_answer2)
 VALUES 
 ('What is the capital of France?', 'Paris', 'London', 'Berlin'),
 ('What color is the sky?', 'Blue', 'Red', 'Yellow'),
