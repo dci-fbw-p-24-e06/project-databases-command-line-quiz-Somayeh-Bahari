@@ -1,11 +1,11 @@
 CREATE DATABASE quiz_db;
 
-CREATE TABLE quiz_topics (
+CREATE TABLE IF NOT EXISTS quiz_topics (
     id SERIAL PRIMARY KEY,
     topic_name TEXT UNIQUE NOT NULL
 );
 
-CREATE TABLE quiz_science (
+CREATE TABLE IF NOT EXISTS quiz_science (
     id SERIAL PRIMARY KEY,
     question TEXT NOT NULL,
     correct_answer TEXT NOT NULL,

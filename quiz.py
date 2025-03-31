@@ -50,12 +50,12 @@ def take_quiz(conn):
         return
 
     # Sanitize topic name for table query
-    table_name = f"quiz_{selected_topic.lower().replace(' ', '_')}"
+    selected_topic = f"quiz_{selected_topic.lower().replace(' ', '_')}"
 
     try:
         cur.execute(f"""
             SELECT question, correct_answer, wrong_answer1, wrong_answer2
-            FROM {table_name} 
+            FROM {selected_topic}
             ORDER BY RANDOM() LIMIT 5
         """)
         questions = cur.fetchall()
@@ -135,6 +135,25 @@ def main():
     conn = connect_db()
     if not conn:
         return
+
+    cur = conn.cursor()
+
+    # Create quiz_topics table if it doesn't exist
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS quiz_topics (
+            id SERIAL PRIMARY KEY,
+            topic_name TEXT UNIQUE NOT NULL
+        )
+    """)
+
+    # Insert default topics into quiz_topics table if they don't exist
+    cur.execute("""
+        INSERT INTO quiz_topics (topic_name) 
+        VALUES ('science'), ('history'), ('geography'), ('sports'), ('movies')
+        ON CONFLICT (topic_name) DO NOTHING
+    """)
+
+    conn.commit()
 
     while True:
         choice = show_menu()
