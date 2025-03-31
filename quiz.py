@@ -88,3 +88,69 @@ def take_quiz(conn):
     print(f"\nYour final score: {score} out of {len(questions)}")
 
 
+def add_question(conn):
+    """Add a new question"""
+    topic = input("Question topic (e.g., Movies, History, Geography): ").strip()
+
+    # Create topic if not exists
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO quiz_topics (topic_name)
+        VALUES (%s) 
+        ON CONFLICT (topic_name) DO NOTHING
+    """, (topic,))
+
+    # Sanitize topic name for table query
+    table_name = f"quiz_{topic.lower().replace(' ', '_')}"
+
+    # Create the topic table if it doesn't exist
+    cur.execute(f"""
+        CREATE TABLE IF NOT EXISTS {table_name} (
+            id SERIAL PRIMARY KEY,
+            question TEXT,
+            correct_answer TEXT,
+            wrong_answer1 TEXT,
+            wrong_answer2 TEXT
+        )
+    """)
+
+    # Get question details
+    question = input("Enter question: ")
+    correct = input("Correct answer: ")
+    wrong1 = input("Wrong answer 1: ")
+    wrong2 = input("Wrong answer 2: ")
+
+    # Save question
+    cur.execute(f"""
+        INSERT INTO {table_name} 
+        (question, correct_answer, wrong_answer1, wrong_answer2)
+        VALUES (%s, %s, %s, %s)
+    """, (question, correct, wrong1, wrong2))
+
+    conn.commit()
+    print("Question added successfully!")
+
+
+def main():
+    conn = connect_db()
+    if not conn:
+        return
+
+    while True:
+        choice = show_menu()
+
+        if choice == "1":
+            take_quiz(conn)
+        elif choice == "2":
+            add_question(conn)
+        elif choice == "3":
+            break
+        else:
+            print("Please enter a valid option (1-3).")
+
+    conn.close()
+    print("Goodbye!")
+
+
+if __name__ == "__main__":
+    main()
