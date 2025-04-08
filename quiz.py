@@ -61,7 +61,7 @@ def take_quiz(conn):
         questions = cur.fetchall()
     except Exception as e:
         print("Error loading questions:", e)
-        return
+        return                   
 
     score = 0
     for i, (question, correct, *wrong) in enumerate(questions, 1):
