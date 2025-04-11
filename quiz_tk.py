@@ -4,6 +4,8 @@ import psycopg2
 import random
 
 # Connect to the database
+
+
 def connect_db():
     try:
         conn = psycopg2.connect(
@@ -18,6 +20,8 @@ def connect_db():
         return None
 
 # Start the quiz
+
+
 def start_quiz(selected_topic):
     global current_question, current_options, correct_answer, score, correct_answers, incorrect_answers, question_count
     if selected_topic is None:
@@ -25,7 +29,7 @@ def start_quiz(selected_topic):
         return
 
     selected_topic_label.config(text=f"Selected Topic: {selected_topic}")
-    
+
     # Show quiz frame and hide the main menu
     menu_frame.pack_forget()
     quiz_frame.pack()
@@ -35,11 +39,13 @@ def start_quiz(selected_topic):
     correct_answers = 0
     incorrect_answers = 0
     question_count = 0  # Reset question count
-    
+
     # Load the first question
     load_question(selected_topic)
 
 # Load a new question
+
+
 def load_question(selected_topic):
     global current_question, current_options, correct_answer, question_count
     if question_count >= 5:
@@ -81,6 +87,8 @@ def load_question(selected_topic):
         print("Error loading question:", e)
 
 # Check the answer
+
+
 def check_answer(selected_option):
     global score, correct_answers, incorrect_answers, question_count
     if current_options[selected_option] == correct_answer:
@@ -101,12 +109,16 @@ def check_answer(selected_option):
     window.after(1000, load_question, selected_topic)
 
 # Show the final score
+
+
 def show_results():
     quiz_frame.pack_forget()
     result_label.config(text=f"Quiz Complete!\nCorrect Answers: {correct_answers}\nIncorrect Answers: {incorrect_answers}")
     result_frame.pack()
 
 # Setup the main window
+
+
 window = tk.Tk()
 window.title("Quiz Game")
 window.geometry("500x400")
@@ -139,11 +151,15 @@ selected_topic_label = tk.Label(menu_frame, text="Select a Topic", font=("Arial"
 selected_topic_label.pack()
 
 # Function to show topic selection
+
+
 def show_topic_selection():
     menu_frame.pack_forget()
     topic_frame.pack()
 
 # Start quiz button
+
+
 start_button = tk.Button(menu_frame, text="Start Quiz", font=("Arial", 14), command=show_topic_selection)
 start_button.pack(pady=20)
 
@@ -153,12 +169,15 @@ menu_frame.pack()
 # Topic selection frame
 topic_frame = tk.Frame(window)
 
+
 def start_quiz_from_topic(topic):
     global selected_topic
     selected_topic = topic
     start_quiz(selected_topic)
 
 # Get available topics from the database
+
+
 cur = conn.cursor()
 cur.execute("SELECT topic_name FROM quiz_topics")
 topics = [row[0] for row in cur.fetchall()]
