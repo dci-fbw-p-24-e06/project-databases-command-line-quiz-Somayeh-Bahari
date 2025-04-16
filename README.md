@@ -21,7 +21,7 @@ By the end of this project, you will have gained experience in these areas and c
 
 4. If the user selects to add additional questions, they will choose the main topic, and a new table will be created. They will then be prompted to enter each field in sequence, including the question, the correct answer, and 2-5 wrong answers. Once all fields are entered, the user will have the option to store the question. If the topic already exists, the user can simply add questions to the existing table.
 
-
+ 
 #### Extra Features (Optional):
 
 - **Database Indexing**: Index columns such as `difficulty_level` for faster query performance if necessary.
